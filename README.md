@@ -1,7 +1,7 @@
 # DipsacalesHybSeq
 Dipscales hybrid-sequencing project
 
-# Methods
+### Methods
 steps after assembly in HybPiper
 1. retrieve aa/exon/intron/supercontig sequences using `retrieve_hybpiper_sequences.py`
    - this is a modified version of `retrieve_sequences.py` from the original HybPiper repo
