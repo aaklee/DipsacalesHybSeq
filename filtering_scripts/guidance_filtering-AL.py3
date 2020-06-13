@@ -50,10 +50,12 @@ def parse_guidance_dir(directory):
     # Read column scores
     col_scores = pd.read_csv(col_score_path)
     col_scores.rename({"#COL_NUMBER":"column", "#RES_PAIR_COLUMN_SCORE":"score"}, axis=1, inplace=True)
+
     # Create analogous DF for sites with single taxon (these recieve no score from GUIDANCE)
     single_cols = pd.DataFrame(columns=col_scores.columns)
     single_cols["column"] = list(set(range(1, no_cols+1))-set(col_scores.column))
     single_cols["score"] = np.nan
+
     # Append single taxon sites and reset indices
     col_scores = col_scores.append(single_cols)
     col_scores.sort_values("column", inplace=True)
@@ -125,8 +127,10 @@ def remove_sequences(fasta, to_remove, as_list=False):
     # Mark samples to be removed from array
     to_remove = list(to_remove)
     retained_samples = [not sample[0].replace(">", "").replace("\n", "") in to_remove for sample in fasta_array]
+
     # Drop samples from array
     retained_fasta_array = fasta_array[retained_samples]
+
     # Flatten array to list
     retained_fasta = list(np.reshape(retained_fasta_array, (np.shape(retained_fasta_array)[0]*np.shape(retained_fasta_array)[1],)))
 
@@ -184,7 +188,7 @@ def remove_columns(fasta, col_scores, threshold):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def main():
 
-    print('\n~~~~~~ GUIDANCE filtering ~~~~~~\n')
+    print('~~~~~~ begin GUIDANCE2 filtering ~~~~~~\n')
 
     parser = OptionParser(prog="guidance_filtering", usage="%prog [options]", version="%prog 1.0")
     parser.add_option("-d", "--guidance-dir",
@@ -243,36 +247,42 @@ def main():
     if remove_seqs and remove_cols:
         # Remove columns
         thinned_cols, cols_removed = remove_columns(fasta = fasta_path, col_scores=col_scores, threshold=column_threshold)
+
         # Remove sequences
         passing_seqs, seqs_removed = remove_sequences(fasta=thinned_cols, to_remove=to_remove, as_list=True)
+
         # Write output fasta
         output_fasta_name = "{}_seq{:1.0f}_col{:1.0f}.fasta".format(locus, sequence_threshold*100,column_threshold*100)
         output_fasta_path = os.path.join(guidance_dir, output_fasta_name)
         with open(output_fasta_path, "w+") as o:
             o.writelines(passing_seqs)
-        print(("Removed {} columns and {} sequences and wrote output fasta to {}".format(cols_removed, seqs_removed, output_fasta_path)))
+        print(("Removed {}/{} columns and {}/{} sequences and wrote output fasta to {}".format(cols_removed, len(col_scores), seqs_removed, len(seq_scores), output_fasta_path)))
 
     elif remove_seqs:
         # Remove sequences
         passing_seqs, seqs_removed = remove_sequences(fasta=fasta_path, to_remove=to_remove)
+
         # Write output fasta
         output_fasta_name = "{}_seq{:1.0f}.fasta".format(locus, sequence_threshold*100)
         with open(output_fasta_name, "w+") as o:
             o.writelines(passing_seqs)
-        print(("Removed {} sequences and wrote output fasta to {}".format(seqs_removed, output_fasta_name)))
+        print(("Removed {}/{} sequences and wrote output fasta to {}".format(seqs_removed, len(seq_scores), output_fasta_name)))
 
     elif remove_cols:
         # Remove columns
         thinned_cols, cols_removed = remove_columns(fasta = fasta_path, col_scores=col_scores, threshold=column_threshold)
+
         # Write output fasta
         output_fasta_name = "{}_col{:1.0f}.fasta".format(locus, column_threshold*100)
         output_fasta_path = os.path.join(guidance_dir, output_fasta_name)
         with open(output_fasta_path, "w+") as o:
             o.writelines(thinned_cols)
-        print(("Removed {} columns and wrote output fasta to {}".format(cols_removed, output_fasta_path)))
+        print(("Removed {}/{} columns and wrote output fasta to {}".format(cols_removed, len(col_scores), output_fasta_path)))
 
     else:
         print("No sequences or columns removed. To remove, pass flags --remove_seqs and/or --remove_cols")
+
+    print('\n~~~~~~ end GUIDANCE2 filtering ~~~~~~')
 
 
 

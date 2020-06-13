@@ -34,4 +34,4 @@ for f in tre_list:
     with open(out, 'w+') as outf:
         tre.write(file=outf, schema='newick')
 
-os.system('cat {} > {}_collapsed.gene.tre'.format(' '.join(collapsed_trees), data))
+os.system('cat {} > {}.collapsed{}.gene.tre'.format(' '.join(collapsed_trees), data, bootstrap))
