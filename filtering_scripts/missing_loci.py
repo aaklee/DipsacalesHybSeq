@@ -6,226 +6,29 @@ import argparse
 import pandas
 from Bio import SeqIO
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-sa', '--supercontig_aln', help='path to directory with supercontig alignments')
-    parser.add_argument('-st', '--supercontig_tre', help='path to directory with supercontig trees')
-    parser.add_argument('-ea', '--exon_aln', help='path to directory with exon alignments')
-    parser.add_argument('-et', '--exon_tre', help='path to directory with exon trees')
-    parser.add_argument('-a', '--avoid_loci', help='output "filtered_loci" from filtering by locus length')
-    parser.add_argument('-b', '--bootstrap', action='store_true', help='include if you want to generate concatenated bootstrap trees/accompanying lists' )
-    if len(sys.argv) == 1:
-        parser.print_help()
-        sys.exit()
+def concatenate_alignments(to_aln, loci, flagged_loci, ignored_loci, avoid):
 
-    args = parser.parse_args()
-
-    supercontig_aln = os.path.abspath(args.supercontig_aln)
-    supercontig_tre = os.path.abspath(args.supercontig_tre)
-    exon_aln = os.path.abspath(args.exon_aln)
-    exon_tre = os.path.abspath(args.exon_tre)
-
-
-    # these are loci for which the recovered exons did reach a certain percentage of the target locus
-    # if found in supercontig dataset, flagged but included due to flanking regions providing additional information
-    # if found in exon dataset, ignored.
-    avoid = []
-    if args.avoid_loci:
-        with open(args.avoid_loci, 'r') as inf:
-            for line in inf:
-                avoid.append(line.strip())
-
-    flagged_loci = []
-    ignored_loci = []
-
-
-
-    # get which loci are inverse between the supercontig/exon trees and alignments
-    # (some loci will have dropped out due to RAxML only taking loci with >=4 taxa)
-    # ensures consistency between coalescent and concatenated analyses
-    final_loci = []
-    for f in os.listdir(supercontig_tre):
-        if args.bootstrap:
-            if 'bipartitions.' in f:
-                locus = f.split('.')[1]
-                if locus not in final_loci:
-                    final_loci.append(locus)
-
-        else:
-            if 'bestTree' in f:
-                locus = f.split('.')[1]
-                if locus not in final_loci:
-                    final_loci.append(locus)
-
-    for f in os.listdir(exon_tre):
-        if args.bootstrap:
-            if 'bipartitions.' in f:
-                locus = f.split('.')[1]
-                if locus not in final_loci:
-                    final_loci.append(locus)
-
-        else:
-            if 'bestTree' in f:
-                locus = f.split('.')[1]
-                if locus not in final_loci:
-                    final_loci.append(locus)
-
-    print(len(final_loci))
-
-
-    # first take all supercontigs (supercontig-only)
-    # second take all exons for which there were no supercontig dataset (supercontig+exon)
-    # third take all exons (exon-only)
-
-    to_cat = {'supercontig':[], 'inverse':[], 'exon':[]} # tre files to concatenate
-    to_aln = {'supercontig':[], 'inverse':[], 'exon':[]} # fasta files to concatenate
-    loci = {'supercontig':[], 'inverse':[], 'exon':[]} # which loci are being included?
-    # NOTE: taxa are not being accounted for yet -- should be the same between coalescent/concat analyses, so we'll get those later
-
-    for f in os.listdir(supercontig_tre):
-        if args.bootstrap:
-            if 'bipartitions.' in f:
-                locus = f.split('.')[1]
-
-                if locus not in avoid:
-                    if locus in final_loci: # ignores a locus if it should be filtered out based on locus length
-                        to_cat['supercontig'].append(os.path.join(supercontig_tre, f))
-                        loci['supercontig'].append(locus)
-                else:
-                    flagged_loci.append(locus)
-
-        else:
-            if 'bestTree' in f:
-                locus = f.split('.')[1]
-
-                if locus not in avoid:
-                    if locus in final_loci: # ignores a locus if it should be filtered out based on locus length
-                        to_cat['supercontig'].append(os.path.join(supercontig_tre, f))
-                        loci['supercontig'].append(locus)
-                else:
-                    flagged_loci.append(locus)
-
-    for f in os.listdir(supercontig_aln):
-        if f.endswith('.fasta'):
-            locus = f[0:4]
-
-            if locus in loci['supercontig']:
-                if locus not in avoid:
-                    if locus in final_loci:
-                        to_aln['supercontig'].append(os.path.join(supercontig_aln, f))
-
-
-    for f in os.listdir(exon_tre):
-        if args.bootstrap:
-            if 'bipartitions.' in f:
-                locus = f.split('.')[1]
-
-                if locus not in avoid:
-                    if locus in final_loci:
-                        if locus not in loci['supercontig']: # exon locus not yet accounted for by supercontig data
-                            to_cat['inverse'].append(os.path.join(exon_tre, f))
-                            loci['inverse'].append(locus)
-                        to_cat['exon'].append(os.path.join(exon_tre, f))
-                        loci['exon'].append(locus)
-                else:
-                    ignored_loci.append(locus)
-
-        else:
-            if 'bestTree' in f:
-                locus = f.split('.')[1]
-
-                if locus not in avoid:
-                    if locus in final_loci:
-                        if locus not in loci['supercontig']: # exon locus not yet accounted for by supercontig data
-                            to_cat['inverse'].append(os.path.join(exon_tre, f))
-                            loci['inverse'].append(locus)
-                        to_cat['exon'].append(os.path.join(exon_tre, f))
-                        loci['exon'].append(locus)
-                else:
-                    ignored_loci.append(locus)
-
-    for f in os.listdir(exon_aln):
-        if f.endswith('.fasta'):
-            locus = f[0:4]
-            if locus not in avoid and locus in final_loci:
-                if locus not in loci['supercontig']:
-                    to_aln['inverse'].append(os.path.join(exon_aln, f))
-                to_aln['exon'].append(os.path.join(exon_aln, f))
-
-    # generate files of trees for coalescent analysis
-    print('\n~ CONCATENATE GENE TREES ~')
-    os.system('cat {} > supercontig.gene.tre'.format(' '.join(to_cat['supercontig'])))
-    os.system('cat {} {} > supercontig-exon.gene.tre'.format(' '.join(to_cat['supercontig']), ' '.join(to_cat['inverse'])))
-    os.system('cat {} > exon.gene.tre'.format(' '.join(to_cat['exon'])))
-    print('~ CONCATENATE GENE TREES COMPLETE ~\n')
-
-
-    # generate lists of tree files to do locus-taxon occupancy guidance_filtering
-    with open('supercontig_tre_list.txt', 'w+') as outf:
-        for i in to_cat['supercontig']:
-            outf.write('{}\n'.format(i))
-
-    with open('exon_tre_list.txt', 'w+') as outf:
-        for i in to_cat['inverse']:
-            outf.write('{}\n'.format(i))
-        for i in to_cat['exon']:
-            outf.write('{}\n'.format(i))
-
-    with open('supercontig-exon_tre_list.txt', 'w+') as outf:
-        for i in to_cat['supercontig']:
-            outf.write('{}\n'.format(i))
-        for i in to_cat['inverse']:
-            outf.write('{}\n'.format(i))
-
-
-    # generate lists of alignment files to do locus-taxon occupancy guidance_filtering
-    with open('supercontig_aln_list.txt', 'w+') as outf:
-        for i in to_aln['supercontig']:
-            outf.write('{}\n'.format(i))
-
-    with open('exon_aln_list.txt', 'w+') as outf:
-        for i in to_aln['inverse']:
-            outf.write('{}\n'.format(i))
-        for i in to_aln['exon']:
-            outf.write('{}\n'.format(i))
-
-    with open('supercontig-exon_aln_list.txt', 'w+') as outf:
-        for i in to_aln['supercontig']:
-            outf.write('{}\n'.format(i))
-        for i in to_aln['inverse']:
-            outf.write('{}\n'.format(i))
-
-
-    # generate lists of trees
-    #with open('{}-{}_supercontigs.txt'.format(loci_filter, loclen_filter), 'w+') as outf:
-    #    for f in to_cat[1]:
-    #        outf.write('{}\n'.format(f))
-
-    #with open('{}-{}_supercontigs-exons.txt'.format(loci_filter, loclen_filter), 'w+') as outf:
-    #    for f in to_cat[1]:
-    #        outf.write('{}\n'.format(f))
-    #    for f in to_cat[2]:
-    #        outf.write('{}\n'.format(f))
-
-
-
-    print('\n~ GENERATE AMAS SUMMARIES ~')
-    # generate alignments for concatenated analysis
+    print('\n~ CONCATENATE ALIGNMENTS ~')
     try:
-        os.system('AMAS.py concat -i {} -f fasta -d dna -t supercontig.gene.aln -p supercontig_partitions.txt'.format(' '.join(to_aln['supercontig'])))
-        os.system('AMAS.py concat -i {} {} -f fasta -d dna -t supercontig-exon.gene.aln -p supercontig-exon_partitions.txt'.format(' '.join(to_aln['supercontig']), ' '.join(to_aln['inverse'])))
-        os.system('AMAS.py concat -i {} -f fasta -d dna -t exon.gene.aln -p exon_partitions.txt'.format(' '.join(to_aln['exon'])))
+        os.system('AMAS.py concat -f fasta -d dna -t supercontig.gene.aln -p supercontig_partitions.txt -i {}'.format(' '.join(to_aln['supercontig'])))
+        os.system('AMAS.py concat  -f fasta -d dna -t supercontig-exon.gene.aln -p supercontig-exon_partitions.txt -i {} {}'.format(' '.join(to_aln['supercontig']), ' '.join(to_aln['inverse'])))
+        os.system('AMAS.py concat -f fasta -d dna -t exon.gene.aln -p exon_partitions.txt -i {}'.format(' '.join(to_aln['exon'])))
     except:
         print('did you "conda activate amas"?')
         sys.exit()
-    print('~ GENERATE AMAS SUMMARIES COMPLETE ~\n')
+    print('~ CONCATENATE ALIGNMENTS COMPLETE ~\n')
 
 
     # STATISTICS
 
+    print('\n~ GENERATE ALIGNMENT STATISTICS ~')
     # calculate alignment stats
     # gets alignment length and proportion of parsimony informative characters
-    os.system('AMAS.py summary -i *.aln -f fasta -d dna -o summary.txt')
+    alns = []
+    for i in os.listdir(os.getcwd()):
+        if i.endswith('aln'):
+            alns.append(i)
+    os.system('AMAS.py summary -f fasta -d dna -o summary.txt -i {}'.format(' '.join(alns)))
 
     amas = pandas.read_csv('summary.txt', sep='\t', header=0, index_col=0)
     amas_data = {}
@@ -279,6 +82,413 @@ def main():
 
     # modify partitions files
     os.system("sed -i 's/p/DNA,p/' *partitions*")
+
+
+
+def generate_aln_list(to_aln):
+    with open('supercontig_aln_list.txt', 'w+') as outf:
+        for i in to_aln['supercontig']:
+            outf.write('{}\n'.format(i))
+
+    with open('exon_aln_list.txt', 'w+') as outf:
+        for i in to_aln['inverse']:
+            outf.write('{}\n'.format(i))
+        for i in to_aln['exon']:
+            outf.write('{}\n'.format(i))
+
+    with open('supercontig-exon_aln_list.txt', 'w+') as outf:
+        for i in to_aln['supercontig']:
+            outf.write('{}\n'.format(i))
+        for i in to_aln['inverse']:
+            outf.write('{}\n'.format(i))
+            
+            
+            
+def generate_tre_list(to_cat):
+    with open('supercontig_tre_list.txt', 'w+') as outf:
+        for i in to_cat['supercontig']:
+            outf.write('{}\n'.format(i))
+
+    with open('exon_tre_list.txt', 'w+') as outf:
+        for i in to_cat['inverse']:
+            outf.write('{}\n'.format(i))
+        for i in to_cat['exon']:
+            outf.write('{}\n'.format(i))
+
+    with open('supercontig-exon_tre_list.txt', 'w+') as outf:
+        for i in to_cat['supercontig']:
+            outf.write('{}\n'.format(i))
+        for i in to_cat['inverse']:
+            outf.write('{}\n'.format(i))
+
+
+
+def concatenate_gene_trees(to_cat):
+    print('\n~ CONCATENATE GENE TREES ~')
+    os.system('cat {} > supercontig.gene.tre'.format(' '.join(to_cat['supercontig'])))
+    os.system('cat {} {} > supercontig-exon.gene.tre'.format(' '.join(to_cat['supercontig']), ' '.join(to_cat['inverse'])))
+    os.system('cat {} > exon.gene.tre'.format(' '.join(to_cat['exon'])))
+    print('~ CONCATENATE GENE TREES COMPLETE ~\n')
+
+
+
+def only_aligments(avoid, supercontig_aln, exon_aln, bootstrap):
+    
+    final_loci = []
+    flagged_loci = []
+    ignored_loci = []
+    
+    for f in os.listdir(supercontig_aln):
+        if f.endswith('fasta'):
+            locus = f.split('.')[0]
+            if locus not in final_loci:
+                final_loci.append(locus)
+    
+    for f in os.listdir(exon_aln):
+        if f.endswith('fasta'):
+            locus = f.split('.')[0]
+            if locus not in final_loci:
+                final_loci.append(locus)
+                
+    print(len(final_loci))
+            
+    # first take all supercontigs (supercontig-only)
+    # second take all exons for which there were no supercontig dataset (supercontig+exon)
+    # third take all exons (exon-only)
+    
+    to_aln = {'supercontig':[], 'inverse':[], 'exon':[]} # fasta files to concatenate
+    loci = {'supercontig':[], 'inverse':[], 'exon':[]} # which loci are being included?
+    
+    for f in os.listdir(supercontig_aln):
+        if f.endswith('.fasta'):
+            locus = f.split('.')[0]
+
+            if locus not in avoid:
+                if locus in final_loci:
+                    to_aln['supercontig'].append(os.path.join(supercontig_aln, f))
+                    loci['supercontig'].append(locus)
+            else:
+                flagged_loci.append(locus)
+                    
+    
+    for f in os.listdir(exon_aln):
+        if f.endswith('.fasta'):
+            locus = f.split('.')[0]
+
+            if locus not in avoid:
+                if locus in final_loci:
+                    if locus not in loci['supercontig']:# exon locus not yet accounted for by supercontig data
+                        to_aln['inverse'].append(os.path.join(exon_aln, f))
+                        loci['inverse'].append(locus)
+                    to_aln['exon'].append(os.path.join(exon_aln, f))
+                    loci['exon'].append(locus)
+            else:
+                ignored_loci.append(locus)
+
+                
+    # generate lists of alignment files to do locus-taxon occupancy guidance_filtering
+    generate_aln_list(to_aln)
+
+    # concatenate alignements and generate amas summaries
+    concatenate_alignments(to_aln, loci, flagged_loci, ignored_loci, avoid)
+
+
+    
+    
+def only_trees(avoid, supercontig_tre, exon_tre, bootstrap):
+    
+    
+    final_loci = []
+    flagged_loci = []
+    ignored_loci = []
+    
+    for f in os.listdir(supercontig_tre):
+        if bootstrap:
+            if 'bipartitions.' in f:
+                locus = f.split('.')[1]
+                if locus not in final_loci:
+                    final_loci.append(locus)
+
+        else:
+            if 'bestTree' in f:
+                locus = f.split('.')[1]
+                if locus not in final_loci:
+                    final_loci.append(locus)
+
+    for f in os.listdir(exon_tre):
+        if bootstrap:
+            if 'bipartitions.' in f:
+                locus = f.split('.')[1]
+                if locus not in final_loci:
+                    final_loci.append(locus)
+
+        else:
+            if 'bestTree' in f:
+                locus = f.split('.')[1]
+                if locus not in final_loci:
+                    final_loci.append(locus)
+
+    print(len(final_loci))
+
+    
+    # first take all supercontigs (supercontig-only)
+    # second take all exons for which there were no supercontig dataset (supercontig+exon)
+    # third take all exons (exon-only)
+
+    to_cat = {'supercontig':[], 'inverse':[], 'exon':[]} # tre files to concatenate
+    loci = {'supercontig':[], 'inverse':[], 'exon':[]} # which loci are being included?
+    # NOTE: taxa are not being accounted for yet -- should be the same between coalescent/concat analyses, so we'll get those later
+
+    for f in os.listdir(supercontig_tre):
+        if bootstrap:
+            if 'bipartitions.' in f:
+                locus = f.split('.')[1]
+
+                if locus not in avoid:
+                    if locus in final_loci: # ignores a locus if it should be filtered out based on locus length
+                        to_cat['supercontig'].append(os.path.join(supercontig_tre, f))
+                        loci['supercontig'].append(locus)
+                else:
+                    flagged_loci.append(locus)
+
+        else:
+            if 'bestTree' in f:
+                locus = f.split('.')[1]
+
+                if locus not in avoid:
+                    if locus in final_loci: # ignores a locus if it should be filtered out based on locus length
+                        to_cat['supercontig'].append(os.path.join(supercontig_tre, f))
+                        loci['supercontig'].append(locus)
+                else:
+                    flagged_loci.append(locus)
+                    
+    for f in os.listdir(exon_tre):
+        if bootstrap:
+            if 'bipartitions.' in f:
+                locus = f.split('.')[1]
+
+                if locus not in avoid:
+                    if locus in final_loci:
+                        if locus not in loci['supercontig']: # exon locus not yet accounted for by supercontig data
+                            to_cat['inverse'].append(os.path.join(exon_tre, f))
+                            loci['inverse'].append(locus)
+                        to_cat['exon'].append(os.path.join(exon_tre, f))
+                        loci['exon'].append(locus)
+                else:
+                    ignored_loci.append(locus)
+
+        else:
+            if 'bestTree' in f:
+                locus = f.split('.')[1]
+
+                if locus not in avoid:
+                    if locus in final_loci:
+                        if locus not in loci['supercontig']: # exon locus not yet accounted for by supercontig data
+                            to_cat['inverse'].append(os.path.join(exon_tre, f))
+                            loci['inverse'].append(locus)
+                        to_cat['exon'].append(os.path.join(exon_tre, f))
+                        loci['exon'].append(locus)
+                else:
+                    ignored_loci.append(locus)
+                    
+                    
+    # generate files of trees for coalescent analysis
+    concatenate_gene_trees(to_cat)
+
+    # generate lists of tree files to do locus-taxon occupancy guidance_filtering
+    generate_tre_list(to_cat)
+
+    print("\n\nyou have provided only trees. unfortunately, I cannot generate alignment statistics from these.")
+    print("missing_loci.py complete.\n\n")
+
+
+
+    
+    
+    
+def missing_loci(avoid, supercontig_aln, exon_aln, supercontig_tre, exon_tre, bootstrap):
+    # get which loci are inverse between the supercontig/exon trees and alignments
+    # (some loci will have dropped out due to RAxML only taking loci with >=4 taxa)
+    # ensures consistency between coalescent and concatenated analyses
+    
+    final_loci = []
+    flagged_loci = []
+    ignored_loci = []
+    
+    for f in os.listdir(supercontig_tre):
+        if bootstrap:
+            if 'bipartitions.' in f:
+                locus = f.split('.')[1]
+                if locus not in final_loci:
+                    final_loci.append(locus)
+
+        else:
+            if 'bestTree' in f:
+                locus = f.split('.')[1]
+                if locus not in final_loci:
+                    final_loci.append(locus)
+
+    for f in os.listdir(exon_tre):
+        if bootstrap:
+            if 'bipartitions.' in f:
+                locus = f.split('.')[1]
+                if locus not in final_loci:
+                    final_loci.append(locus)
+
+        else:
+            if 'bestTree' in f:
+                locus = f.split('.')[1]
+                if locus not in final_loci:
+                    final_loci.append(locus)
+
+    print(len(final_loci))
+
+
+    # first take all supercontigs (supercontig-only)
+    # second take all exons for which there were no supercontig dataset (supercontig+exon)
+    # third take all exons (exon-only)
+
+    to_cat = {'supercontig':[], 'inverse':[], 'exon':[]} # tre files to concatenate
+    to_aln = {'supercontig':[], 'inverse':[], 'exon':[]} # fasta files to concatenate
+    loci = {'supercontig':[], 'inverse':[], 'exon':[]} # which loci are being included?
+    # NOTE: taxa are not being accounted for yet -- should be the same between coalescent/concat analyses, so we'll get those later
+
+    for f in os.listdir(supercontig_tre):
+        if bootstrap:
+            if 'bipartitions.' in f:
+                locus = f.split('.')[1]
+
+                if locus not in avoid:
+                    if locus in final_loci: # ignores a locus if it should be filtered out based on locus length
+                        to_cat['supercontig'].append(os.path.join(supercontig_tre, f))
+                        loci['supercontig'].append(locus)
+                else:
+                    flagged_loci.append(locus)
+
+        else:
+            if 'bestTree' in f:
+                locus = f.split('.')[1]
+
+                if locus not in avoid:
+                    if locus in final_loci: # ignores a locus if it should be filtered out based on locus length
+                        to_cat['supercontig'].append(os.path.join(supercontig_tre, f))
+                        loci['supercontig'].append(locus)
+                else:
+                    flagged_loci.append(locus)
+
+    for f in os.listdir(supercontig_aln):
+        if f.endswith('.fasta'):
+            locus = f.split('.')[0]
+
+            if locus in loci['supercontig']:
+                if locus not in avoid:
+                    if locus in final_loci:
+                        to_aln['supercontig'].append(os.path.join(supercontig_aln, f))
+
+
+    for f in os.listdir(exon_tre):
+        if bootstrap:
+            if 'bipartitions.' in f:
+                locus = f.split('.')[1]
+
+                if locus not in avoid:
+                    if locus in final_loci:
+                        if locus not in loci['supercontig']: # exon locus not yet accounted for by supercontig data
+                            to_cat['inverse'].append(os.path.join(exon_tre, f))
+                            loci['inverse'].append(locus)
+                        to_cat['exon'].append(os.path.join(exon_tre, f))
+                        loci['exon'].append(locus)
+                else:
+                    ignored_loci.append(locus)
+
+        else:
+            if 'bestTree' in f:
+                locus = f.split('.')[1]
+
+                if locus not in avoid:
+                    if locus in final_loci:
+                        if locus not in loci['supercontig']: # exon locus not yet accounted for by supercontig data
+                            to_cat['inverse'].append(os.path.join(exon_tre, f))
+                            loci['inverse'].append(locus)
+                        to_cat['exon'].append(os.path.join(exon_tre, f))
+                        loci['exon'].append(locus)
+                else:
+                    ignored_loci.append(locus)
+
+    for f in os.listdir(exon_aln):
+        if f.endswith('.fasta'):
+            locus = f.split('.')[0]
+            if locus not in avoid and locus in final_loci:
+                if locus not in loci['supercontig']:
+                    to_aln['inverse'].append(os.path.join(exon_aln, f))
+                to_aln['exon'].append(os.path.join(exon_aln, f))
+
+    # generate files of trees for coalescent analysis
+    concatenate_gene_trees(to_cat)
+
+    # generate lists of tree files to do locus-taxon occupancy guidance_filtering
+    generate_tre_list(to_cat)
+
+    # generate lists of alignment files to do locus-taxon occupancy guidance_filtering
+    generate_aln_list(to_aln)
+
+    # concatenate alignements and generate amas summaries
+    concatenate_alignments(to_aln, loci, flagged_loci, ignored_loci, avoid)
+
+    
+    
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-sa', '--supercontig_aln', help='path to directory with supercontig alignments')
+    parser.add_argument('-st', '--supercontig_tre', help='path to directory with supercontig trees')
+    parser.add_argument('-ea', '--exon_aln', help='path to directory with exon alignments')
+    parser.add_argument('-et', '--exon_tre', help='path to directory with exon trees')
+    parser.add_argument('-a', '--avoid_loci', help='output "filtered_loci" from filtering by locus length')
+    parser.add_argument('-b', '--bootstrap', action='store_true', help='include if you want to generate concatenated bootstrap trees/accompanying lists' )
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit()
+
+    args = parser.parse_args()
+    
+    if args.supercontig_aln:
+        supercontig_aln = os.path.abspath(args.supercontig_aln)
+    if args.supercontig_tre:
+        supercontig_tre = os.path.abspath(args.supercontig_tre)
+    if args.exon_aln:
+        exon_aln = os.path.abspath(args.exon_aln)
+    if args.exon_tre:
+        exon_tre = os.path.abspath(args.exon_tre)
+        
+    bootstrap = args.bootstrap
+
+
+    # these are loci for which the recovered exons did reach a certain percentage of the target locus
+    # if found in supercontig dataset, flagged but included due to flanking regions providing additional information
+    # if found in exon dataset, ignored.
+    avoid = []
+    if args.avoid_loci:
+        with open(args.avoid_loci, 'r') as inf:
+            for line in inf:
+                avoid.append(line.strip())
+    
+    
+    # combine loci
+    # only alignments
+    if (args.supercontig_aln and args.exon_aln) and not (args.supercontig_tre and args.exon_tre):
+        only_aligments(avoid, supercontig_aln, exon_aln, bootstrap)
+    
+    elif (args.supercontig_tre and args.exon_tre) and not (args.supercontig_aln and args.exon_aln):
+        only_trees(avoid, supercontig_tre, exon_tre, bootstrap)
+        
+    else:
+        missing_loci(avoid, supercontig_aln, exon_aln, supercontig_tre, exon_tre, bootstrap)
+
+
+
+    
 
 
 

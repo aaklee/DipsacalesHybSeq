@@ -111,8 +111,9 @@ def main():
     parser.add_argument('-tm', '--taxon_filtering_mode', help='\"include\" or \"exclude\" taxon filtering mode')
     #parser.add_argument('-ll', '--locus_length', action='store_true', help='include to filter by locus length')
     #parser.add_argument('-ml', '--missing_loci', action='store_true', help='include to produce trees/alignments combining missing loci (supercontig + exon)')
-    parser.add_argument('-rt', '--rogue_taxa', action='store_true', help='filter out any rogue_taxa')
+    parser.add_argument('-rt', '--rogue_taxa', action='store_true', help='exclude ALL rogue_taxa')
     parser.add_argument('-ar', '--all_rogue_taxa', action='store_true', help='include ALL rogue taxa')
+    parser.add_argument('-sr', '--some_rogue_taxa', action='store_true', help='include SOME rogue taxa')
     parser.add_argument('-co', '--convert', action='store_true', help='convert sample names from \"Gilman\" code')
     parser.add_argument('-ep', '--exclude_paralogs', action='store_true', help='exclude potential paralogs flagged by HybPiper')
     if len(sys.argv) <= 1:
@@ -124,8 +125,8 @@ def main():
 
     ##### RETRIEVE SEQEUENCES
     ####################################################################################################################
-    taxonnames = '/projects/clement-lab/5-HybSeq/2-hybpiper_Dipsacales/Dipsacales_Baits_Project/taxonnames.csv'
-    rogue_taxa_f = '/projects/clement-lab/5-HybSeq/2-hybpiper_Dipsacales/DipsacalesHybSeq/filtering_scripts/rogue_taxa.txt'
+    taxonnames = '/projects/clement-lab/resources/software/DipsacalesHybSeq/filtering_scripts/taxonnames.csv'
+    rogue_taxa_f = '/projects/clement-lab/resources/software/DipsacalesHybSeq/filtering_scripts/rogue_taxa.txt'
     all_taxa = []
     convert_names = {}
     names_convert = {}
@@ -145,7 +146,7 @@ def main():
             for line in inf:
                 all_taxa.append(line.strip().split(' ')[0].split('/')[-1].split('_')[0])
 
-    # if rogue taxa, get rogue taxa
+    # if rogue taxa, get rogue taxa to exclude
     if args.rogue_taxa:
         with open(rogue_taxa_f, 'r') as inf:
             for line in inf:
@@ -193,19 +194,26 @@ def main():
                         elif taxon not in rogue_taxa:
                             exclude_taxa.append(taxon)
 
-    #if args.all_rogue_taxa:
-    #    with open(rogue_taxa, 'r') as inf:
-    #        for line in inf:
-    #            if line.strip().split(',')[0] not in include_taxa:
-    #                include_taxa.append(line.strip().split(',')[0])
+    if args.all_rogue_taxa:
+        with open(rogue_taxa_f, 'r') as inf:
+            for line in inf:
+                if line.strip().split(',')[0] not in include_taxa:
+                    include_taxa.append(line.strip().split(',')[0])
 
+    if args.some_rogue_taxa:
+        with open(rogue_taxa_f, 'r') as inf:
+            for line in inf:
+                if line.strip().split(',')[0] not in include_taxa and line.strip().split(',')[0] not in exclude_taxa:
+                    include_taxa.append(line.strip().split(',')[0])
 
 
     taxon_pool = []
-    if not include_taxa:
+    if not include_taxa and exclude_taxa:
         taxon_pool = [i for i in all_taxa if i not in exclude_taxa]
-    else:
-        taxon_pool = [i for i in all_taxa if i in include_taxa and i not in exclude_taxa]
+    elif include_taxa and not exclude_taxa:
+        taxon_pool = [i for i in all_taxa if i in include_taxa]
+    elif include_taxa and exclude_taxa:
+        taxon_pool = [i for i in all_taxa if i in include_taxa or i not in exclude_taxa]
 
     os.system('mkdir 1-hybpiper_sequences')
     retrieve_sequences(os.path.abspath(args.hybpiper), os.path.abspath(args.target_file), taxon_pool, convert_names, args.exclude_paralogs)

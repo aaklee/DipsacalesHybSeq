@@ -6,7 +6,7 @@ from Bio import SeqIO
 
 def main():
     aln_dir = os.path.abspath(sys.argv[1]) # path to PASTA alignments
-    cutoff = float(sys.argv[2]) # phyutility -clean cutoff
+    cutoff = float(sys.argv[2]) # phyutility -clean cutoff, as a float
 
     for i in os.listdir(aln_dir):
         if os.path.isdir(os.path.join(aln_dir,i)):
