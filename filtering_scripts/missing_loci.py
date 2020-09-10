@@ -5,18 +5,46 @@ import os
 import argparse
 import pandas
 from Bio import SeqIO
+from amas import AMAS
 
 def concatenate_alignments(to_aln, loci, flagged_loci, ignored_loci, avoid):
 
     print('\n~ CONCATENATE ALIGNMENTS ~')
-    try:
-        os.system('AMAS.py concat -f fasta -d dna -t supercontig.gene.aln -p supercontig_partitions.txt -i {}'.format(' '.join(to_aln['supercontig'])))
-        os.system('AMAS.py concat  -f fasta -d dna -t supercontig-exon.gene.aln -p supercontig-exon_partitions.txt -i {} {}'.format(' '.join(to_aln['supercontig']), ' '.join(to_aln['inverse'])))
-        os.system('AMAS.py concat -f fasta -d dna -t exon.gene.aln -p exon_partitions.txt -i {}'.format(' '.join(to_aln['exon'])))
-    except:
-        print('did you "conda activate amas"?')
-        sys.exit()
+    
+    s_aln = AMAS.MetaAlignment(in_files=to_aln['supercontig'], data_type='dna', in_format='fasta', cores=1)
+    se_files = to_aln['supercontig'] + to_aln['inverse']
+    se_aln = AMAS.MetaAlignment(in_files=se_files, data_type='dna', in_format='fasta', cores=1)
+    e_aln = AMAS.MetaAlignment(in_files=to_aln['exon'], data_type='dna', in_format='fasta', cores=1)
+
+    s_parsed = s_aln.get_parsed_alignments()
+    s_tuple = s_aln.get_concatenated(s_parsed)
+    s_concat = s_tuple[0]
+    s_partitions = s_tuple[1]
+    with open('supercontig.gene.aln', 'w+') as outf:
+        outf.write(s_aln.print_fasta(s_concat))
+    with open('supercontig_partitions.txt', 'w+') as outf:
+        outf.write(s_aln.print_raxml_partitions('dna'))
+
+    se_parsed = se_aln.get_parsed_alignments()
+    se_tuple = se_aln.get_concatenated(se_parsed)
+    se_concat = se_tuple[0]
+    se_partitions = se_tuple[1]
+    with open('supercontig-exon.gene.aln', 'w+') as outf:
+        outf.write(se_aln.print_fasta(se_concat))
+    with open('supercontig-exon_partitions.txt', 'w+') as outf:
+        outf.write(se_aln.print_raxml_partitions('dna'))
+
+    e_parsed = e_aln.get_parsed_alignments()
+    e_tuple = e_aln.get_concatenated(e_parsed)
+    e_concat = e_tuple[0]
+    e_partitions = e_tuple[1]
+    with open('exon.gene.aln', 'w+') as outf:
+        outf.write(e_aln.print_fasta(e_concat))
+    with open('exon_partitions.txt', 'w+') as outf:
+        outf.write(e_aln.print_raxml_partitions('dna'))
+
     print('~ CONCATENATE ALIGNMENTS COMPLETE ~\n')
+
 
 
     # STATISTICS
@@ -28,7 +56,8 @@ def concatenate_alignments(to_aln, loci, flagged_loci, ignored_loci, avoid):
     for i in os.listdir(os.getcwd()):
         if i.endswith('aln'):
             alns.append(i)
-    os.system('AMAS.py summary -f fasta -d dna -o summary.txt -i {}'.format(' '.join(alns)))
+    summary_alns = AMAS.MetaAlignment(in_files=alns, data_type='dna', in_format='fasta', cores=1)
+    summary_alns.write_summaries('summary.txt')
 
     amas = pandas.read_csv('summary.txt', sep='\t', header=0, index_col=0)
     amas_data = {}
@@ -378,14 +407,14 @@ def missing_loci(avoid, supercontig_aln, exon_aln, supercontig_tre, exon_tre, bo
 
     for f in os.listdir(supercontig_aln):
         if f.endswith('.fasta'):
-            locus = f.split('.')[0]
+            locus = f.split('.')[0][:4]
 
             if locus in loci['supercontig']:
                 if locus not in avoid:
                     if locus in final_loci:
                         to_aln['supercontig'].append(os.path.join(supercontig_aln, f))
 
-
+                        
     for f in os.listdir(exon_tre):
         if bootstrap:
             if 'bipartitions.' in f:
@@ -417,11 +446,14 @@ def missing_loci(avoid, supercontig_aln, exon_aln, supercontig_tre, exon_tre, bo
 
     for f in os.listdir(exon_aln):
         if f.endswith('.fasta'):
-            locus = f.split('.')[0]
-            if locus not in avoid and locus in final_loci:
-                if locus not in loci['supercontig']:
-                    to_aln['inverse'].append(os.path.join(exon_aln, f))
+            locus = f.split('.')[0][:4]
+            
+            if locus in loci['inverse']:
+                to_aln['inverse'].append(os.path.join(exon_aln, f))
+            
+            if locus in loci['exon']:
                 to_aln['exon'].append(os.path.join(exon_aln, f))
+
 
     # generate files of trees for coalescent analysis
     concatenate_gene_trees(to_cat)

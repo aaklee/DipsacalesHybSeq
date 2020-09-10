@@ -21,7 +21,8 @@ for i in os.listdir(d):
         outf.write('#SBATCH --partition=normal\n')
         outf.write('#SBATCH --time=1-00:00:00\n')
 
-        outf.write('python /home/hpc/leea33/github/pasta/run_pasta.py -i {} -o ./{} --max-mem-mb 4096\n'.format(os.path.join(d,i), locus))
+        outf.write('module add mafft\n')
+        outf.write('python /projects/clement-lab/resources/software/pasta/run_pasta.py -i {} -o ./{} --max-mem-mb 4096\n'.format(os.path.join(d,i), locus))
     
     os.system('sbatch pasta{}.sh'.format(f))
     f += 1
