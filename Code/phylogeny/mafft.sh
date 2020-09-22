@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+## THIS IS AN EXAMPLE SCRIPT. CHANGE THINGS ACCORDINGLY.
+
 #SBATCH --workdir=./
 #SBATCH --mail-user=leea33@tcnj.edu
 #SBaATCH --mail-type=ALL

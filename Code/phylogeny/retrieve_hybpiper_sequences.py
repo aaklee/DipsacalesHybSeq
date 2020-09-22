@@ -125,8 +125,8 @@ def main():
 
     ##### RETRIEVE SEQEUENCES
     ####################################################################################################################
-    taxonnames = '/projects/clement-lab/resources/software/DipsacalesHybSeq/filtering_scripts/taxonnames.csv'
-    rogue_taxa_f = '/projects/clement-lab/resources/software/DipsacalesHybSeq/filtering_scripts/rogue_taxa.txt'
+    taxonnames = '/projects/clement-lab/resources/software/DipsacalesHybSeq/Code/phylogeny/taxonnames.csv'
+    rogue_taxa_f = '/projects/clement-lab/resources/software/DipsacalesHybSeq/Code/phylogeny/rogue_taxa.txt'
     all_taxa = []
     convert_names = {}
     names_convert = {}
