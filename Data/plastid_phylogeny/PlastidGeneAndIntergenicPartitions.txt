@@ -1,0 +1,2 @@
+p1_30_genic_noref=1-83989
+p2_30_intergenic_noref=83990-143950
