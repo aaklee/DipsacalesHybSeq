@@ -1,0 +1,56 @@
+Wrote concatenated sequences to fasta file 'supercontig.gene.aln'
+Wrote partitions for the concatenated file to 'supercontig_partitions.txt'
+Wrote concatenated sequences to fasta file 'supercontig-exon.gene.aln'
+Wrote partitions for the concatenated file to 'supercontig-exon_partitions.txt'
+Wrote concatenated sequences to fasta file 'exon.gene.aln'
+Wrote partitions for the concatenated file to 'exon_partitions.txt'
+Wrote summaries to file 'summary.txt'
+227
+
+~ CONCATENATE GENE TREES ~
+~ CONCATENATE GENE TREES COMPLETE ~
+
+
+~ GENERATE AMAS SUMMARIES ~
+~ GENERATE AMAS SUMMARIES COMPLETE ~
+
+
+
+~~ SUPERCONTIGS
+
+227 total loci in supercontig analyses: 6198,5670,7628,6649,4932,6483,5857,4942,6270,5981,6865,6227,6449,7325,6036,6496,7028,4796,5822,6924,5264,4744,6946,6914,6298,5335,6457,6459,5699,5347,6407,6056,6544,6779,4691,6098,5842,5943,5578,5933,6393,5513,6550,5849,6713,5614,5949,5858,6404,6746,6882,6563,5168,6175,5034,6164,5257,6016,4471,6038,6791,5642,4793,5894,5977,6893,5816,6854,5703,4848,6405,5299,5772,5921,5770,6631,6460,5913,6660,6148,5123,5551,6968,5968,4954,5596,6977,5339,5721,5163,7324,6639,6864,6557,5980,5893,5536,6150,7331,5489,7013,5922,5333,5791,6488,5502,7572,6500,6041,6406,6420,5974,5865,6958,5131,5038,6384,6526,6176,5528,6282,6528,5162,5188,5398,6432,5200,6732,5562,5273,5990,6458,5599,6947,6383,5843,6130,6139,5296,6226,5260,5104,6221,5945,5138,6933,4893,6689,5950,6494,5918,5866,6462,5366,6961,6601,5018,7241,7128,6119,5406,7583,6366,6785,6652,6848,7361,7136,5841,5477,5531,6552,6572,5348,6216,5116,5859,6320,5634,6679,6050,7602,6389,5464,6978,6995,6318,5357,5733,5354,5639,6454,6064,5421,5404,6792,5899,6540,6527,5664,4724,4889,7279,6265,5941,5815,7141,7273,6373,6029,6363,6258,6238,6398,6487,6299,5090,5422,6378,7111,4992,6859,6274,7021,5716,7135,6685
+
+60.0 taxa included in supercontig analysis: (60) Plectritis_congesta,Lonicera_tatarica,Viburnum_jamesonii,Lonicera_orientalis,Viburnum_vernicosum,Leycesteria_formosa,Lonicera_caerulea,Vesalea_coriacea,Cephalaria_gigantea,Heptacodium_miconioides,Lonicera_floribunda,Acanthocalyx_nepalensis_ssp_delevaya,Lonicera_fragrantissima,Viburnum_lutescens,Viburnum_taiwanianum,Knautia_macedonica,Diabelia_tetrasepala,Kolkwitzia_amabilis,Lonicera_gynochlamydea,Lonicera_ferdinandi,Symphoricarpos_occidentalis,Sambucus_pubens,Dipelta_floribunda,Viburnum_rhytidophyllum,Lonicera_quinquelocuaris,Diervilla_sessilifolia,Valeriana_lobata,Viburnum_luzonicum,Bassecoia_siamensis,Zabelia_tyaihyoni,Centranthus_ruber,Dipsacus_fullomum,Lonicera_pileata,Valeriana_microphylla,Viburnum_coriaceum,Triosteum_himalayanum,Morina_longifolia,Lonicera_xylosteum,Fedia_cornucopiae,Lomelosia_albocinta,Weigela_florida,Pteracephalodes_hookeri,Paracryphia_alticola,Lonicera_periclymenum,Lonicera_standishii,Sambucus_gaudichaudiana,Nardostachys_jatamansi,Ilex_crenata,Pycnocomon_canus,Sambucus_cerulea,Viburnum_lantenoides,Cryptothladia_kokonorica,Patrina_triloba,Abelia_uniflora,Zabelia_dielsii,Linnaea_borealis,Succisa_pratensis,Sixalix_farinosa,Triplostegia_grandulifera,Lonicera_maackii
+
+
+in the supercontig-only concatenated analysis:
+	alignment length = 290422.0
+	proportion PIS = 0.662
+
+
+~~ SUPERCONTIGS+EXONS
+
+0 exons added: 
+
+227 total loci in supercontig+exon analyses: 6198,5670,7628,6649,4932,6483,5857,4942,6270,5981,6865,6227,6449,7325,6036,6496,7028,4796,5822,6924,5264,4744,6946,6914,6298,5335,6457,6459,5699,5347,6407,6056,6544,6779,4691,6098,5842,5943,5578,5933,6393,5513,6550,5849,6713,5614,5949,5858,6404,6746,6882,6563,5168,6175,5034,6164,5257,6016,4471,6038,6791,5642,4793,5894,5977,6893,5816,6854,5703,4848,6405,5299,5772,5921,5770,6631,6460,5913,6660,6148,5123,5551,6968,5968,4954,5596,6977,5339,5721,5163,7324,6639,6864,6557,5980,5893,5536,6150,7331,5489,7013,5922,5333,5791,6488,5502,7572,6500,6041,6406,6420,5974,5865,6958,5131,5038,6384,6526,6176,5528,6282,6528,5162,5188,5398,6432,5200,6732,5562,5273,5990,6458,5599,6947,6383,5843,6130,6139,5296,6226,5260,5104,6221,5945,5138,6933,4893,6689,5950,6494,5918,5866,6462,5366,6961,6601,5018,7241,7128,6119,5406,7583,6366,6785,6652,6848,7361,7136,5841,5477,5531,6552,6572,5348,6216,5116,5859,6320,5634,6679,6050,7602,6389,5464,6978,6995,6318,5357,5733,5354,5639,6454,6064,5421,5404,6792,5899,6540,6527,5664,4724,4889,7279,6265,5941,5815,7141,7273,6373,6029,6363,6258,6238,6398,6487,6299,5090,5422,6378,7111,4992,6859,6274,7021,5716,7135,6685,
+
+60.0 taxa included in supercontig+exon analyses: (60) Plectritis_congesta,Lonicera_tatarica,Viburnum_jamesonii,Lonicera_orientalis,Viburnum_vernicosum,Leycesteria_formosa,Lonicera_caerulea,Vesalea_coriacea,Cephalaria_gigantea,Heptacodium_miconioides,Lonicera_floribunda,Acanthocalyx_nepalensis_ssp_delevaya,Lonicera_fragrantissima,Viburnum_lutescens,Viburnum_taiwanianum,Knautia_macedonica,Diabelia_tetrasepala,Kolkwitzia_amabilis,Lonicera_gynochlamydea,Lonicera_ferdinandi,Symphoricarpos_occidentalis,Sambucus_pubens,Dipelta_floribunda,Viburnum_rhytidophyllum,Lonicera_quinquelocuaris,Diervilla_sessilifolia,Valeriana_lobata,Viburnum_luzonicum,Bassecoia_siamensis,Zabelia_tyaihyoni,Centranthus_ruber,Dipsacus_fullomum,Lonicera_pileata,Valeriana_microphylla,Viburnum_coriaceum,Triosteum_himalayanum,Morina_longifolia,Lonicera_xylosteum,Fedia_cornucopiae,Lomelosia_albocinta,Weigela_florida,Pteracephalodes_hookeri,Paracryphia_alticola,Lonicera_periclymenum,Lonicera_standishii,Sambucus_gaudichaudiana,Nardostachys_jatamansi,Ilex_crenata,Pycnocomon_canus,Sambucus_cerulea,Viburnum_lantenoides,Cryptothladia_kokonorica,Patrina_triloba,Abelia_uniflora,Zabelia_dielsii,Linnaea_borealis,Succisa_pratensis,Sixalix_farinosa,Triplostegia_grandulifera,Lonicera_maackii
+
+in the supercontig-exon concatenated analysis:
+	alignment length = 290422.0
+	proportion PIS = 0.662
+
+
+~~ EXONS
+
+227 total loci in exon analysis: 5357,6432,6947,6383,6732,6458,5464,5990,5899,6221,6226,4793,6130,6139,6689,5354,4471,6494,5733,5404,6933,5421,5639,5815,5941,6601,6462,4796,6961,7128,7241,5664,6366,6785,7583,6119,4992,4691,6216,7361,7136,6652,6848,5716,6552,6572,6320,5422,4744,5090,6978,5273,5562,5843,6050,7602,6679,5599,6389,5398,5188,6318,6995,5200,6454,6064,5138,5950,5296,5945,5104,5260,6792,5018,7279,6265,6527,6540,5406,6373,7273,5366,5866,5918,4848,7141,6299,5859,7111,5116,6378,6363,6029,5634,6398,6487,6238,6258,5531,5477,5841,7021,7135,6685,5348,6274,6859,6483,5770,6649,5921,6270,5772,5299,6198,7628,6924,6227,7325,6449,5981,6865,5703,7028,6036,6496,6457,6459,6914,5721,6946,6298,5339,6098,6779,6544,5913,6407,5596,4954,5968,5551,5123,6056,5791,6550,5333,5922,5502,6393,5536,5893,6746,6404,5163,6713,5489,6164,5038,6791,6038,5131,6016,6563,4893,5162,6882,5528,6175,5977,6893,5865,6405,5264,5822,6854,6631,6460,5670,4942,5857,4932,4889,4724,6968,6148,5943,5842,6660,5347,5699,5335,6977,7331,5858,6150,5949,5614,7013,6864,6557,5980,7324,6639,6488,5933,6500,6041,5578,7572,5849,5513,6958,6406,5816,5974,5894,6420,5034,6282,6526,6176,5168,6528,5642,5257,6384
+
+60.0 taxa included in exon analyses: (60) Plectritis_congesta,Lonicera_tatarica,Viburnum_jamesonii,Lonicera_orientalis,Viburnum_vernicosum,Leycesteria_formosa,Lonicera_caerulea,Vesalea_coriacea,Cephalaria_gigantea,Heptacodium_miconioides,Lonicera_floribunda,Acanthocalyx_nepalensis_ssp_delevaya,Lonicera_fragrantissima,Viburnum_lutescens,Viburnum_taiwanianum,Knautia_macedonica,Diabelia_tetrasepala,Kolkwitzia_amabilis,Lonicera_gynochlamydea,Lonicera_ferdinandi,Symphoricarpos_occidentalis,Sambucus_pubens,Dipelta_floribunda,Viburnum_rhytidophyllum,Lonicera_quinquelocuaris,Diervilla_sessilifolia,Valeriana_lobata,Viburnum_luzonicum,Bassecoia_siamensis,Zabelia_tyaihyoni,Centranthus_ruber,Dipsacus_fullomum,Lonicera_pileata,Valeriana_microphylla,Viburnum_coriaceum,Triosteum_himalayanum,Morina_longifolia,Lonicera_xylosteum,Fedia_cornucopiae,Lomelosia_albocinta,Weigela_florida,Pteracephalodes_hookeri,Paracryphia_alticola,Lonicera_periclymenum,Lonicera_standishii,Sambucus_gaudichaudiana,Nardostachys_jatamansi,Ilex_crenata,Pycnocomon_canus,Sambucus_cerulea,Viburnum_lantenoides,Cryptothladia_kokonorica,Patrina_triloba,Abelia_uniflora,Zabelia_dielsii,Linnaea_borealis,Succisa_pratensis,Sixalix_farinosa,Triplostegia_grandulifera,Lonicera_maackii
+
+in the exon-only concatenated analysis:
+	alignment length = 110048.0
+	proportion PIS = 0.35
+
+total loci to avoid: 0
+0 loci flagged (supercontig): 
+0 loci ignored (exon): 
