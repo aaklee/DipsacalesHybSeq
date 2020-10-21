@@ -1,0 +1,1 @@
+these scripts were used to break down plastid genome assemblies into genic and intergenic regions based on alignments to annotated reference chloroplast genomes from closely related species
