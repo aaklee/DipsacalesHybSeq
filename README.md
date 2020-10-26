@@ -1,7 +1,7 @@
 # DipsacalesHybSeq
 Dipscales hybrid-sequencing project using targeted enrichment of 353 low-copy nuclear loci in the [Angiosperms353 bait kit](https://arborbiosci.com/genomics/targeted-sequencing/mybaits/mybaits-expert/mybaits-expert-angiosperms-353/) designed by [Johnson _et al._ (2019)](https://academic.oup.com/sysbio/article/68/4/594/5237557). All work in this repository is associated with 
 
-> Lee, Aaron K., I. S. Gilman, M. Srivastav, A. Lerner, M. J. Donoghue, W. L. Clement. (*Accepted*) **Reconstructing Dipsacales phylogeny using Angiosperms353: Issues and insights**. American Journal of Botany.
+> Lee, Aaron K., I. S. Gilman, M. Srivastav, A. Lerner, M. J. Donoghue, W. L. Clement. (*submitted*) **Reconstructing Dipsacales phylogeny using Angiosperms353: Issues and insights**. American Journal of Botany.
 
 Please cite us appropriately if you find our results or methodology useful!
 
