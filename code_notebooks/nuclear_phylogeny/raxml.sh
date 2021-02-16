@@ -23,7 +23,7 @@ do
     j=$(ls $i | cut -d/ -f11 | cut -c1-4)
 
     # write to commands.txt file
-    echo "module add raxml; raxmlHPC -fa -x 65135 -# 500 -p 65135 -m GTRGAMMA -s $i -n $j.rax$COUNT"
+    echo "module add raxml; raxmlHPC -fa -x 65135 -# 100 -p 65135 -m GTRGAMMA -s $i -n $j.rax$COUNT"
     let COUNT++
 
 done > commands.txt

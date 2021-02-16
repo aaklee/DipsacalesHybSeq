@@ -4,9 +4,8 @@ Gilman_024,Adoxa_moschatellina
 Gilman_018,Sambucus_ebulus
 Gilman_022,Viburnum_clemensiae
 Gilman_006,Viburnum_plicatum
-Gilman_005,Lonicera_henryi
 Gilman_065,Symphoricarpos_sinensis
 Gilman_095,Knautia_dipsacifolia
-Gilman_032,Sinadoxa_corydarifolia
-Gilman_016,Succisella_inflexa
-Gilman_046,Viburnum_cinnamomifolium
+Gilman_032,Sinadoxa_corydalifolia
+
+

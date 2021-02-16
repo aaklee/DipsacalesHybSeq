@@ -11,7 +11,8 @@ import os
 import argparse
 from Bio import SeqIO
 
-def retrieve_sequences(sampledir, target_file, taxon_pool, convert_names, exclude_paralogs): # shamelessly copied & modified from hybpiper/retrieve_sequences.py
+# copied & modified from hybpiper/retrieve_sequences.py
+def retrieve_sequences(sampledir, target_file, taxon_pool, convert_names, exclude_paralogs, include_loci, get_paralogous_sequences, incl_gene_name): 
     retrieve = ['dna', 'intron', 'supercontig', 'aa']
     for r in retrieve:
         if r == 'dna':
@@ -32,14 +33,26 @@ def retrieve_sequences(sampledir, target_file, taxon_pool, convert_names, exclud
 
         sample_names = [x for x in os.listdir(sampledir) if (os.path.isdir(os.path.join(sampledir,x)) and not x.startswith('.') and x in taxon_pool)]
 
+        # get include loci regardless of paralog or not
+        include_regardless = []
+        if include_loci:
+            include_regardless = include_loci.split(',')
+
+        print(include_regardless)
+
         # check if exclude paralogs
         paralogs = []
+        paralogf = os.path.join(sampledir,'all_genes_with_paralog_warnings.txt')
+        with open(paralogf, 'r') as inf:
+            for line in inf:
+                paralogs.append(line.strip())
         if exclude_paralogs:
-            paralogf = os.path.join(sampledir,'all_genes_with_paralog_warnings.txt')
-            with open(paralogf, 'r') as inf:
-                for line in inf:
-                    paralogs.append(line.strip())
-            print("Retrieving {} - {} (paralogs) genes from {} samples".format(len(target_genes), len(paralogs), len(sample_names)))
+            print('excluding paralogs')
+            if include_regardless:
+                print('including {} sequences (even if paralogous)'.format(len(include_regardless)))
+                print("Retrieving {} - {} (paralogs) genes from {} samples".format(len(target_genes), len(paralogs)-len(include_regardless), len(sample_names)))
+            else:
+                print("Retrieving {} - {} (paralogs) genes from {} samples".format(len(target_genes), len(paralogs), len(sample_names)))
         else:
             print("Retrieving {} genes from {} samples".format(len(target_genes), len(sample_names)))
 
@@ -47,7 +60,8 @@ def retrieve_sequences(sampledir, target_file, taxon_pool, convert_names, exclud
         gene_count = 0
         sample_count = []
         for gene in target_genes:
-            if gene in paralogs:
+            if (exclude_paralogs) and (gene in paralogs) and (gene not in include_regardless):
+                print('exclude')
                 continue
             else:
                 gene_seqs = []
@@ -56,16 +70,26 @@ def retrieve_sequences(sampledir, target_file, taxon_pool, convert_names, exclud
                     rec.description = ''
 
                 for sample in sample_names:
+                    sample_path = ''
                     if seq_dir == 'intron':
                         sample_path = os.path.join(sampledir, sample, gene, sample, 'sequences', seq_dir,"{}_{}.fasta".format(gene, filename))
                     else:
-                        sample_path = os.path.join(sampledir, sample, gene, sample, 'sequences', seq_dir, gene+'.'+seq_dir)
+                        if seq_dir == 'FNA':
+                            if gene in paralogs and get_paralogous_sequences:
+                                sample_path = os.path.join(sampledir, sample, gene, sample, 'paralogs', gene+'_paralogs.fasta')
+                                if not os.path.isfile(sample_path):
+                                    sample_path = os.path.join(sampledir, sample, gene, sample, 'sequences', seq_dir, gene+'.'+seq_dir)
+                            else:
+                                sample_path = os.path.join(sampledir, sample, gene, sample, 'sequences', seq_dir, gene+'.'+seq_dir)
 
+                            #sample_path = os.path.join(sampledir, sample, gene, sample, 'sequences', seq_dir, gene+'.'+seq_dir)
 
                     if os.path.isfile(sample_path):
                         for record in SeqIO.parse(sample_path, 'fasta'):
                             if convert_names:
-                                record.id = convert_names[record.id[0:10]]
+                                record.id = record.id.strip().split()[0].replace(record.id[0:10], convert_names[record.id[0:10]])
+                            if incl_gene_name:
+                                record.id = record.id + '-' + gene
                             record.description = ''
                             gene_seqs.append(record)
                             sample_count.append(record.id)
@@ -108,14 +132,19 @@ def main():
     parser.add_argument('-hy', '--hybpiper', help='path to hybpiper output directory', required=True)
     parser.add_argument('-tf', '--target_file', help='path to hybpiper target sequences', required=True)
     parser.add_argument('-ta', '--taxon_filtering', help='path to list of taxa to include or exclude, if None then assume to include all taxa')
-    parser.add_argument('-tm', '--taxon_filtering_mode', help='\"include\" or \"exclude\" taxon filtering mode')
+    parser.add_argument('-tm', '--taxon_filtering_mode', help='\"include\" or \"exclude\" taxon, if -ta')
+    #parser.add_argument('-se', '--sequence_filtering', help='path to CSV of \"locus,species,sequence\" to include or exclude, if None then assume to include all top-level sequences')
+    #parser.add_argument('-sm', '--sequence_filtering_mode', help='\"include\" or \"exclude\" sequences, if -se')
     #parser.add_argument('-ll', '--locus_length', action='store_true', help='include to filter by locus length')
     #parser.add_argument('-ml', '--missing_loci', action='store_true', help='include to produce trees/alignments combining missing loci (supercontig + exon)')
-    parser.add_argument('-rt', '--rogue_taxa', action='store_true', help='exclude ALL rogue_taxa')
+    parser.add_argument('-er', '--exclude_rogue_taxa', action='store_true', help='exclude ALL rogue_taxa')
     parser.add_argument('-ar', '--all_rogue_taxa', action='store_true', help='include ALL rogue taxa')
-    parser.add_argument('-sr', '--some_rogue_taxa', action='store_true', help='include SOME rogue taxa')
+    #parser.add_argument('-sr', '--some_rogue_taxa', action='store_true', help='include SOME rogue taxa (don\'t do anything\')')
     parser.add_argument('-co', '--convert', action='store_true', help='convert sample names from \"Gilman\" code')
+    parser.add_argument('-ign', '--incl_gene_name', action='store_true', help='include the locus ID in the name (e.g. \"-4471\"')
     parser.add_argument('-ep', '--exclude_paralogs', action='store_true', help='exclude potential paralogs flagged by HybPiper')
+    parser.add_argument('-gps', '--get_paralogous_sequences', action='store_true', help='get assembled paralogs if they were assembled (multiple seqs)')
+    parser.add_argument('-il', '--include_loci', help='comma-separated locus names that might have been excluded from paralog list')
     if len(sys.argv) <= 1:
         parser.print_help()
         sys.exit()
@@ -125,8 +154,8 @@ def main():
 
     ##### RETRIEVE SEQEUENCES
     ####################################################################################################################
-    taxonnames = '/projects/clement-lab/resources/software/DipsacalesHybSeq/Code/phylogeny/taxonnames.csv'
-    rogue_taxa_f = '/projects/clement-lab/resources/software/DipsacalesHybSeq/Code/phylogeny/rogue_taxa.txt'
+    taxonnames = '/projects/clement-lab/resources/software/DipsacalesHybSeq/code_notebooks/nuclear_phylogeny/taxonnames.csv'
+    rogue_taxa_f = '/projects/clement-lab/resources/software/DipsacalesHybSeq/code_notebooks/nuclear_phylogeny/rogue_taxa.txt'
     all_taxa = []
     convert_names = {}
     names_convert = {}
@@ -144,10 +173,10 @@ def main():
     else:
         with open(os.path.join(os.path.abspath(args.hybpiper), 'reads_list.txt'), 'r') as inf:
             for line in inf:
-                all_taxa.append(line.strip().split(' ')[0].split('/')[-1].split('_')[0])
+                all_taxa.append('_'.join(line.strip().split(' ')[0].split('/')[-1].split('_')[0:2]))
 
     # if rogue taxa, get rogue taxa to exclude
-    if args.rogue_taxa:
+    if args.exclude_rogue_taxa:
         with open(rogue_taxa_f, 'r') as inf:
             for line in inf:
                 rogue_taxa.append(line.strip().split(',')[0])
@@ -158,7 +187,7 @@ def main():
         samples = []
         with open(os.path.join(os.path.abspath(args.hybpiper), 'reads_list.txt'), 'r') as inf:
             for line in inf:
-                samples.append(line.strip().split(' ')[0].split('/')[-1].split('_')[0])
+                samples.append('_'.join(line.strip().split(' ')[0].split('/')[-1].split('_')[0:2]))
 
         include_taxa = [i for i in samples]
 
@@ -200,12 +229,11 @@ def main():
                 if line.strip().split(',')[0] not in include_taxa:
                     include_taxa.append(line.strip().split(',')[0])
 
-    if args.some_rogue_taxa:
-        with open(rogue_taxa_f, 'r') as inf:
-            for line in inf:
-                if line.strip().split(',')[0] not in include_taxa and line.strip().split(',')[0] not in exclude_taxa:
-                    include_taxa.append(line.strip().split(',')[0])
-
+    #if args.some_rogue_taxa:
+    #    with open(rogue_taxa_f, 'r') as inf:
+    #        for line in inf:
+               # if line.strip().split(',')[0] not in include_taxa and line.strip().split(',')[0] not in exclude_taxa:
+    #            include_taxa.append(line.strip().split(',')[0])
 
     taxon_pool = []
     if not include_taxa and exclude_taxa:
@@ -215,8 +243,10 @@ def main():
     elif include_taxa and exclude_taxa:
         taxon_pool = [i for i in all_taxa if i in include_taxa or i not in exclude_taxa]
 
+    print(taxon_pool)
+
     os.system('mkdir 1-hybpiper_sequences')
-    retrieve_sequences(os.path.abspath(args.hybpiper), os.path.abspath(args.target_file), taxon_pool, convert_names, args.exclude_paralogs)
+    retrieve_sequences(os.path.abspath(args.hybpiper), os.path.abspath(args.target_file), taxon_pool, convert_names, args.exclude_paralogs, args.include_loci, args.get_paralogous_sequences, args.incl_gene_name)
 
 
 
