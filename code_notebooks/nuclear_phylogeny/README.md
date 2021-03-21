@@ -16,12 +16,13 @@ steps after assembly in HybPiper
 10. combine alignments and trees exon-only and exon+flanking datasets (`tree_inference_set.py`)
 
 RAxML tree inference:
-1. concatenate alignments using AMAS
-2. infer trees using `RAXML-HPC -f a ...` (``) (500 bootstraps)
+1. concatenate alignments using AMAS concat
+2. add RAxML partition format to partitions file: `sed -i -e "s/^/DNA, /g" *partitions.txt`
+3. infer trees using `RAXML-HPC -f a ...` (``)
 
 ASTRAL tree inference:
-1. concatenate gene trees using (`cat`)
-2. infer trees using default ASTRAL settings (default: 100 bootstraps)
+1. concatenate gene trees: `cat *collapsed.gene.tre`
+2. infer trees using default ASTRAL settings
 
 Alternative uses:
 - tip trimming step (5): absolute branch length values can be trimmed using `trim_long_tips.py` and test different cutoffs
