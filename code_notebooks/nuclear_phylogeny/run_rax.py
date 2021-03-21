@@ -23,7 +23,7 @@ for i in os.listdir(d):
         outf.write('#SBATCH --time=1-00:00:00\n')
 
         outf.write('module add raxml\n')
-        outf.write('raxmlHPC -fa -x 65135 -# 500 -p 65135 -m GTRGAMMA -s {} -n {}.rax{}\n'.format(os.path.join(d,i), locus, f))
+        outf.write('raxmlHPC -fa -x 65135 -# 100 -p 65135 -m GTRGAMMA -s {} -n {}.rax{}\n'.format(os.path.join(d,i), locus, f))
     
     os.system('sbatch raxml{}.sh'.format(f))
     f += 1

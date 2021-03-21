@@ -23,7 +23,7 @@ with open('pasta.sh', 'w+') as outf:
     outf.write('#SBATCH --mail-type=ALL\n')
     outf.write('#SBATCH --job-name=pasta\n')
     outf.write('#SBATCH --output=pasta_%j.log\n')
-    outf.write('#SBATCH --ntasks=20\n')
+    outf.write('#SBATCH --ntasks=60\n')
     outf.write('#SBATCH --partition=normal\n')
     outf.write('#SBATCH --time=1-00:00:00\n')
 

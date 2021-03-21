@@ -1,11 +1,3 @@
-Gilman_083,Tetradoxa_omeiensis
 Gilman_012,Viburnum_rufidulum
 Gilman_024,Adoxa_moschatellina
 Gilman_018,Sambucus_ebulus
-Gilman_022,Viburnum_clemensiae
-Gilman_006,Viburnum_plicatum
-Gilman_065,Symphoricarpos_sinensis
-Gilman_095,Knautia_dipsacifolia
-Gilman_032,Sinadoxa_corydalifolia
-
-
