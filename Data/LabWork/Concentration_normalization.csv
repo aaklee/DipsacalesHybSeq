@@ -1,0 +1,97 @@
+Genus,Species,Accession No,Concentration (ng/uL),Starting volume (uL),Total mass (ng),Volume DNA for 200ng (orange if we do not have enough for 200ng),Volume Tris to add to bring to 52.5uL
+Abelia,uniflora,Ex 12,4.3,52.5,225.75,46.5,6.0
+Acanthocalyx,nepalensis ssp. delevaya,Boufford 28374,95,100,9500,2.1,50.4
+Adoxa,moschatellina,Tank 120,101,430,43430,2.0,50.5
+Bassecoia,siamensis,256,2.60,10,26,76.9,42.5
+Centranthus,ruber,9-18-08 WC,11.6,65,754,17.2,35.3
+Cephalaria,gigantea,19743238,686,100,68600,1.0,51.5
+Cryptothladia,kokonorica,Boufford 26762,51.6,100,5160,3.9,48.6
+Diabelia,tetrasepala,Ex 10,3.9,100,390,51.3,1.2
+Diervilla,sessilifolia,201-2004A,13.1,100,1310,15.3,37.2
+Dipelta,floribunda,1650-80E,191,100,19100,1.0,51.5
+Dipsacus,fullonum,19801959,83,100,8300,2.4,50.1
+Fedia,cornucopiae,Bell 279,14.9,10,149,13.4,42.5
+Heptacodium,miconioides,Tank 105,12.8,50,640,15.6,36.9
+Knautia,dipsacifolia,19762161,58.8,100,5880,3.4,49.1
+Knautia,macedonica,19931628-68,78.4,100,7840,2.6,49.9
+Kolkwitzia,amabilis,9-18-08 WC,47.2,80,3776,4.2,48.3
+Leycesteria,formosa,Boufford 29815,25.6,100,2560,7.8,44.7
+Linnaea,borealis,198-2015A,25.2,100,2520,7.9,44.6
+Lomelosia,albocincta,191,18,25,450,11.1,41.4
+Lonicera,alpigena,1310-84-A,250,100,25000,1.0,51.5
+Lonicera,caerulea,249-96-B,30.2,100,3020,6.6,45.9
+Lonicera,ferdinandi,56387A,27.2,100,2720,7.4,45.1
+Lonicera,floribunda,240-96-B,70.2,100,7020,2.8,49.7
+Lonicera,fragrantissima,9-12-08 WC,84.6,75,6345,2.4,50.1
+Lonicera,gynochlamydea,15032-A,250,100,25000,1.0,51.5
+Lonicera,henryi,1969-80-MASS,62.4,100,6240,3.2,49.3
+Lonicera,maackii,7190-B,366,100,36600,1.0,51.5
+Lonicera,nigra,118-2000-A,250,100,25000,1.0,51.5
+Lonicera,orientalis,1240-84-A,20.2,100,2020,9.9,42.6
+Lonicera,periclymenum,276-2007-MASS,37.6,100,3760,5.3,47.2
+Lonicera,pileata,18-92-D,15.1,100,1510,13.2,39.3
+Lonicera,quinquelocularis,436-72-B,58.2,100,5820,3.4,49.1
+Lonicera,standishii,6669-1B,32,100,3200,6.3,46.3
+Lonicera,tatarica,299-78-A,140,100,14000,1.4,51.1
+Lonicera,xylosteum,856-76-A,119,100,11900,1.7,50.8
+Morina,longifolia,9-18-08 WC,60,55,3300,3.3,49.2
+Nardostachys,jatamansi,Boufford 29371,74,100,7400,2.7,49.8
+Patrinia,triloba,19870634,23.8,25,595,8.4,44.1
+Plectritis,congesta,Bell 701,11.5,50,575,17.4,35.1
+Pterocephalodes,hookeri,Boufford 33905,39.6,60,2376,5.1,47.4
+Pterocephalus,sanctus,58,4.82,80,385.6,41.5,11.0
+Pterocephalus,canus,51,6.14,100,614,32.6,19.9
+Sambucus,cerulea,Tank 102,328,800,262400,1.0,51.5
+Sambucus,ebulus,16,360,750,270000,1.0,51.5
+Sambucus,gaudichaudiana,9,784,300,235200,1.0,51.5
+Sambucus,pubens,Tank 103,368,450,165600,1.0,51.5
+Scabiosa,columbaria,1000-1354,24.4,55,1342,8.2,44.3
+Scabiosa,mansenensis,254,17.4,30,522,11.5,41.0
+Sinadoxa,corydalifolia,Fiero 011,82.8,30,2484,2.4,50.1
+Sixalix,farinosa,120,101,430,43430,2.0,50.5
+Succisa,pratensis,19752365,48.2,100,4820,4.1,48.4
+Succisella,inflexa,19761319,33.8,100,3380,5.9,46.6
+Symphoricarpos,occidentalis,103-78-A,1520,100,152000,1.0,51.5
+Symphoricarpos,sinensis,2605,51.6,200,10320,3.9,48.6
+Tetradoxa,omeiensis,Tank 2006-63,14.5,25,362.5,13.8,38.7
+Triosteum,himalayanum,2347,115,100,11500,1.7,50.8
+Triplostegia,glandulifera,Boufford 27738,7.94,100,794,25.2,27.3
+Valeriana,celtica,Bell G29,6.12,100,612,32.7,19.8
+Valeriana,lapathifolia,Bell G42,4.7,100,470,42.6,9.9
+Valeriana,laxiflora,Bell G44,8.64,100,864,23.1,29.4
+Valeriana,lobata,Bell G46,13.4,100,1340,14.9,37.6
+Valeriana,microphylla,Bell G50,16.8,100,1680,11.9,40.6
+Valeriana,officinalis,9-18-08 WC,172,65,11180,1.2,51.3
+Valeriana,polemonifolia,Bell G61,4.64,100,464,43.1,9.4
+Valeriana,prionophylla,Bell G64,20.2,100,2020,9.9,42.6
+Valeriana,pyrenaica,Bell G65,9.42,150,1413,21.2,31.3
+Valeriana,supina,11-26-08 WC,27,60,1620,7.4,45.1
+Valeriana,tuberosa,Bell G78,28.2,100,2820,7.1,45.4
+Valeriana,virescens,Bell G79,27,150,4050,7.4,45.1
+Valeriana,wallrothii,19801546,322,100,32200,1.0,51.5
+Valerianella,locusta,Tank 2006-64,19.5,25,487.5,10.3,42.2
+Vesalea,coriacea,ex 14,5.49,52.5,288.225,36.4,16.1
+Viburnum,acutifolium,MJD 96,11.5,40,460,17.4,35.1
+Viburnum,amplificatum,SAN-156003,494,50,24700,1.0,51.5
+Viburnum,cinnamomifolium,PWS 2105,7.52,15,112.8,26.6,37.5
+Viburnum,clemensiae,PWS 2135,8.06,50,403,24.8,27.7
+Viburnum,coriaceum,PWS 2088,19.2,50,960,10.4,42.1
+Viburnum,dentatum,5070-1A,42,75,3150,4.8,47.7
+Viburnum,jamesonii,PWS 1636,3.98,40,159.2,50.3,12.5
+Viburnum,lantanoides,01265,16.7,50,835,12.0,40.5
+Viburnum,lutescens,PWS 2104,15.7,50,785,12.7,39.8
+Viburnum,luzonicum,K81,41.4,50,2070,4.8,47.7
+Viburnum,orientale,RCW 48,16.3,30,489,12.3,40.2
+Viburnum,plicatum,KFC 1940,47.2,50,2360,4.2,48.3
+Viburnum,punctatum,MD #1 4558,124,100,12400,1.6,50.9
+Viburnum,rhytidophyllum,1386-82B,49.8,30,1494,4.0,48.5
+Viburnum,rufidulum,21418A,38.4,50,1920,5.2,47.3
+Viburnum,sargentii,RCW 19,61.4,30,1842,3.3,49.2
+Viburnum,sieboldii,616-6B,66.8,50,3340,3.0,49.5
+Viburnum,taiwanianum,RCW 49,8.58,20,171.6,23.3,32.5
+Viburnum,vernicosum,PWS 2123,24.6,50,1230,8.1,44.4
+Weigela,florida,9-18-08 WC,5.08,80,406.4,39.4,13.1
+Zabelia,dielsii,Ex 7,12.7,75,952.5,15.7,36.8
+Zabelia,tyaihyoni,ex 1,36.6,100,3660,5.5,47.0
+Ilex,crenata,Tank 2006-91,9.26,30,277.8,21.6,30.9
+Paracryphia,alticola,Tank 2006-112,1040,20,20800,1.0,51.5
