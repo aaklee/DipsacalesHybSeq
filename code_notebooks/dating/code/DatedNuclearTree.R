@@ -44,7 +44,7 @@ taxa_to_color<-c("Sixalix_farinosa", "Lomelosia_albocinta", "Pycnocomon_canus",
 
 
 # following are calibration nodes
-nodes.to.label <- c(87,69, 103, 64, 97, 94, 93, 109, 117, 110, 62)
+nodes.to.label <- c(91,75, 108, 68, 105, 99, 98, 115, 127, 116, 66)
 
 # This is replcating NA as many times as sum of nodes (59) and no. of tip labels(60)
 #so it is making a vector of 119 NA
