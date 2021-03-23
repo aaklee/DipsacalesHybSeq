@@ -4,7 +4,7 @@ EO = exon-only
 
 EF = exon + flanking region
 
-Notes
+## notes:
 - individual gene trees and locus alignments are zipped in tar.gz files
 - concatenated gene trees (for ASTRAL analysis) and locus alignments (for RAxML analysis) are in single files
 - partitions for concatenated locus alignments are in "_partitions.txt" files
