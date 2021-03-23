@@ -1,0 +1,183 @@
+#NEXUS
+begin taxa;
+	dimensions ntax=81;
+	taxlabels
+	Abelia_uniflora[&!color=#ff0066]
+	Acanthocalys_nepalensis[&!color=#00cc00]
+	Bassecoia_siamensis[&!color=#990099]
+	Centranthus_ruber[&!color=#00cccc]
+	Cephalaria_gigantea[&!color=#990099]
+	Cryptothladia_kokonorica[&!color=#00cc00]
+	Diabelia_tetrasepala[&!color=#ff0066]
+	Diervilla_sessilifolia[&!color=#ff3300]
+	Dipelta_floribunda[&!color=#ff0066]
+	Dipsacus_fullomum[&!color=#990099]
+	Fedia_cornucopiae[&!color=#00cccc]
+	Heptacodium_miconioides[&!color=#006633]
+	Ilex_crenata
+	Knautia_macedonica[&!color=#990099]
+	Kolkwitzia_amabilis[&!color=#ff0066]
+	Leycesteria_formosa[&!color=#006633]
+	Linnea_borealis[&!color=#ff0066]
+	Lomelosia_albocinta[&!color=#990099]
+	Lonicera_caerulea[&!color=#006633]
+	Lonicera_ferdinandi[&!color=#006633]
+	Lonicera_floribunda[&!color=#006633]
+	Lonicera_fragrantissima[&!color=#006633]
+	Lonicera_gynochlamydea[&!color=#006633]
+	Lonicera_henryi[&!color=#006633]
+	Lonicera_maackii[&!color=#006633]
+	Lonicera_orientalis[&!color=#006633]
+	Lonicera_periclymenum[&!color=#006633]
+	Lonicera_pileata[&!color=#006633]
+	Lonicera_quinquelocuaris[&!color=#006633]
+	Lonicera_standishii[&!color=#006633]
+	Lonicera_tatarica[&!color=#006633]
+	Lonicera_xylosteum[&!color=#006633]
+	Morina_longifolia[&!color=#00cc00]
+	Nardostachys_jatamansi[&!color=#00cccc]
+	Paracryphia_alticola
+	Patrina_triloba[&!color=#00cccc]
+	Plectritis_congesta[&!color=#00cccc]
+	Pteracephalodes_hookeri[&!color=#990099]
+	Pterocephalus_sanctus[&!color=#990099]
+	Pycnocomon_canus[&!color=#990099]
+	Sambucus_cerulea[&!color=#330066]
+	Sambucus_gaudichaudiana[&!color=#330066]
+	Sambucus_pubens[&!color=#330066]
+	Sinodoxa_corydarifolia[&!color=#330066]
+	Sixalis_farinosa[&!color=#990099]
+	Succisa_pratensis[&!color=#990099]
+	Succisella_inflexa[&!color=#990099]
+	Symphoricarpos_occidentalis[&!color=#006633]
+	Triosteum_himalayanum[&!color=#006633]
+	Triplostegia_grandulifera[&!color=#990099]
+	Valeriana_celtica[&!color=#00cccc]
+	Valeriana_lapathifolia[&!color=#00cccc]
+	Valeriana_laxiflora[&!color=#00cccc]
+	Valeriana_lobata[&!color=#00cccc]
+	Valeriana_microphylla[&!color=#00cccc]
+	Valeriana_officinalis[&!color=#00cccc]
+	Valeriana_polemoniifolia[&!color=#00cccc]
+	Valeriana_prinophylla[&!color=#00cccc]
+	Valeriana_pyrennica[&!color=#00cccc]
+	Valeriana_tuberosa[&!color=#00cccc]
+	Valeriana_virescens[&!color=#00cccc]
+	Valeriana_wallrothii[&!color=#00cccc]
+	Vesalea_coriacea[&!color=#ff0066]
+	Viburnum_acutilifolium[&!color=#330066]
+	Viburnum_ampliflicatum[&!color=#330066]
+	Viburnum_clemensiae[&!color=#330066]
+	Viburnum_dentatum[&!color=#330066]
+	Viburnum_jamesonii[&!color=#330066]
+	Viburnum_lantenoides[&!color=#330066]
+	Viburnum_lutescens[&!color=#330066]
+	Viburnum_luzonicum[&!color=#330066]
+	Viburnum_orientale[&!color=#330066]
+	Viburnum_plicatum[&!color=#330066]
+	Viburnum_punctatum[&!color=#330066]
+	Viburnum_rhytidophyllum[&!color=#330066]
+	Viburnum_sargentii[&!color=#330066]
+	Viburnum_sieboldii[&!color=#330066]
+	Viburnum_taiwanianum[&!color=#330066]
+	Weigela_florida[&!color=#ff3300]
+	Zabelia_dielsii
+	Zabelia_tyaihyoni
+;
+end;
+
+begin trees;
+	tree tree_1 = [&R] (Diabelia_tetrasepala:0.00372,(Kolkwitzia_amabilis:0.001788,(Abelia_uniflora:0.002016,(((((Cryptothladia_kokonorica:0.001339,Morina_longifolia:0.003964)[&bootstrap=100]:0.0114,Acanthocalys_nepalensis:0.011619)[&bootstrap=100]:0.008093,(Zabelia_tyaihyoni:0.004043,Zabelia_dielsii:0.001268)[&bootstrap=100]:0.005858)[&bootstrap=100]:0.001625,(((Patrina_triloba:0.01058,(Nardostachys_jatamansi:0.005348,(((((Valeriana_lapathifolia:0.003369,((Valeriana_polemoniifolia:0.001597,Valeriana_laxiflora:0.002062)[&bootstrap=100]:0.001182,(Valeriana_virescens:0.002,Valeriana_lobata:0.003517)[&bootstrap=100]:6.76E-4)[&bootstrap=98]:3.13E-4)[&bootstrap=100]:9.52E-4,(Plectritis_congesta:0.016146,Valeriana_prinophylla:0.003593)[&bootstrap=89]:2.82E-4)[&bootstrap=100]:0.003837,(Centranthus_ruber:0.008802,(Valeriana_pyrennica:0.007224,((Valeriana_wallrothii:0.002734,Valeriana_officinalis:8.94E-4)[&bootstrap=100]:0.002255,Valeriana_tuberosa:0.004672)[&bootstrap=100]:0.006726)[&bootstrap=81]:6.5E-4)[&bootstrap=88]:6.47E-4)[&bootstrap=97]:0.003897,(Valeriana_microphylla:0.006539,Fedia_cornucopiae:0.029205)[&bootstrap=97]:0.006467)[&bootstrap=100]:0.013647,Valeriana_celtica:0.009303)[&bootstrap=100]:0.011253)[&bootstrap=100]:0.015826)[&bootstrap=100]:0.005992,(Triplostegia_grandulifera:0.010133,((Bassecoia_siamensis:0.003995,Pteracephalodes_hookeri:0.006654)[&bootstrap=100]:0.002439,(((Succisa_pratensis:0.016645,Succisella_inflexa:0.009021)[&bootstrap=98]:0.001359,((Dipsacus_fullomum:0.032109,Knautia_macedonica:0.007875)[&bootstrap=66]:0.001516,Cephalaria_gigantea:0.039331)[&bootstrap=50]:0.001815)[&bootstrap=99]:9.13E-4,((Pycnocomon_canus:0.00851,Pterocephalus_sanctus:0.020418)[&bootstrap=100]:0.005637,(Sixalis_farinosa:0.011794,Lomelosia_albocinta:0.009232)[&bootstrap=100]:0.005647)[&bootstrap=100]:0.002889)[&bootstrap=80]:4.22E-4)[&bootstrap=100]:0.020575)[&bootstrap=100]:0.004459)[&bootstrap=100]:0.002839,(((Diervilla_sessilifolia:0.004917,Weigela_florida:0.005821)[&bootstrap=100]:0.007309,((Ilex_crenata:0.026471,Paracryphia_alticola:0.011437)[&bootstrap=100]:0.002669,((Sinodoxa_corydarifolia:0.016808,(Sambucus_pubens:0.017287,(Sambucus_gaudichaudiana:0.005462,Sambucus_cerulea:0.012572)[&bootstrap=45]:2.98E-4)[&bootstrap=61]:8.89E-4)[&bootstrap=100]:0.007243,(Viburnum_plicatum:0.023181,((Viburnum_clemensiae:0.007511,Viburnum_ampliflicatum:0.00836)[&bootstrap=60]:5.82E-4,((Viburnum_lantenoides:0.00471,((Viburnum_sieboldii:0.003142,Viburnum_lutescens:0.004582)[&bootstrap=91]:6.0E-4,Viburnum_taiwanianum:0.001945)[&bootstrap=61]:1.1E-4)[&bootstrap=33]:6.8E-5,((Viburnum_sargentii:0.007475,((Viburnum_jamesonii:0.004312,(Viburnum_acutilifolium:2.82E-4,Viburnum_dentatum:0.002328)[&bootstrap=72]:2.96E-4)[&bootstrap=100]:0.002267,(Viburnum_luzonicum:0.010097,Viburnum_orientale:0.003909)[&bootstrap=100]:0.00215)[&bootstrap=58]:1.42E-4)[&bootstrap=100]:6.35E-4,(Viburnum_punctatum:0.004857,Viburnum_rhytidophyllum:0.001661)[&bootstrap=100]:0.001382)[&bootstrap=25]:5.0E-5)[&bootstrap=47]:2.89E-4)[&bootstrap=90]:0.00141)[&bootstrap=100]:0.004441)[&bootstrap=100]:0.002952)[&bootstrap=100]:0.025639)[&bootstrap=100]:0.002202,(Heptacodium_miconioides:0.018532,(Triosteum_himalayanum:0.006918,((Leycesteria_formosa:0.006026,Symphoricarpos_occidentalis:0.00538)[&bootstrap=100]:6.46E-4,(Lonicera_periclymenum:0.010538,((Lonicera_standishii:2.6E-4,Lonicera_fragrantissima:0.002071)[&bootstrap=100]:0.002274,(Lonicera_caerulea:0.002341,((Lonicera_pileata:0.003387,((Lonicera_henryi:0.005487,Lonicera_gynochlamydea:0.003195)[&bootstrap=36]:1.17E-4,(((Lonicera_floribunda:4.88E-4,Lonicera_xylosteum:8.26E-4)[&bootstrap=100]:7.97E-4,((Lonicera_maackii:0.001943,Lonicera_quinquelocuaris:0.001753)[&bootstrap=100]:0.001067,Lonicera_tatarica:0.002235)[&bootstrap=97]:1.6E-4)[&bootstrap=100]:6.81E-4,Lonicera_orientalis:0.004766)[&bootstrap=82]:1.32E-4)[&bootstrap=38]:8.4E-5)[&bootstrap=100]:5.39E-4,Lonicera_ferdinandi:0.004158)[&bootstrap=51]:1.59E-4)[&bootstrap=98]:3.12E-4)[&bootstrap=100]:0.001343)[&bootstrap=100]:0.004289)[&bootstrap=68]:4.33E-4)[&bootstrap=100]:0.01211)[&bootstrap=100]:0.002528)[&bootstrap=100]:0.012749)[&bootstrap=94]:5.02E-4)[&bootstrap=100]:0.010276,(Vesalea_coriacea:0.002924,Linnea_borealis:0.001577)[&bootstrap=100]:3.36E-4)[&bootstrap=100]:6.18E-4)[&bootstrap=100]:3.81E-4)[&bootstrap=99]:2.87E-4,Dipelta_floribunda:0.001572);
+end;
+
+begin figtree;
+	set appearance.backgroundColorAttribute="Default";
+	set appearance.backgroundColour=#ffffff;
+	set appearance.branchColorAttribute="User selection";
+	set appearance.branchColorGradient=false;
+	set appearance.branchLineWidth=1.0;
+	set appearance.branchMinLineWidth=0.0;
+	set appearance.branchWidthAttribute="Fixed";
+	set appearance.foregroundColour=#000000;
+	set appearance.hilightingGradient=false;
+	set appearance.selectionColour=#2d3680;
+	set branchLabels.colorAttribute="User selection";
+	set branchLabels.displayAttribute="bootstrap";
+	set branchLabels.fontName="sansserif";
+	set branchLabels.fontSize=8;
+	set branchLabels.fontStyle=0;
+	set branchLabels.isShown=true;
+	set branchLabels.significantDigits=4;
+	set layout.expansion=465;
+	set layout.layoutType="RECTILINEAR";
+	set layout.zoom=0;
+	set legend.attribute=null;
+	set legend.fontSize=10.0;
+	set legend.isShown=false;
+	set legend.significantDigits=4;
+	set nodeBars.barWidth=4.0;
+	set nodeBars.displayAttribute=null;
+	set nodeBars.isShown=false;
+	set nodeLabels.colorAttribute="User selection";
+	set nodeLabels.displayAttribute="Node ages";
+	set nodeLabels.fontName="sansserif";
+	set nodeLabels.fontSize=8;
+	set nodeLabels.fontStyle=0;
+	set nodeLabels.isShown=false;
+	set nodeLabels.significantDigits=4;
+	set nodeShapeExternal.colourAttribute=null;
+	set nodeShapeExternal.isShown=false;
+	set nodeShapeExternal.minSize=10.0;
+	set nodeShapeExternal.scaleType=Width;
+	set nodeShapeExternal.shapeType=Circle;
+	set nodeShapeExternal.size=4.0;
+	set nodeShapeExternal.sizeAttribute=null;
+	set nodeShapeInternal.colourAttribute=null;
+	set nodeShapeInternal.isShown=false;
+	set nodeShapeInternal.minSize=10.0;
+	set nodeShapeInternal.scaleType=Width;
+	set nodeShapeInternal.shapeType=Circle;
+	set nodeShapeInternal.size=4.0;
+	set nodeShapeInternal.sizeAttribute=null;
+	set polarLayout.alignTipLabels=false;
+	set polarLayout.angularRange=0;
+	set polarLayout.rootAngle=0;
+	set polarLayout.rootLength=100;
+	set polarLayout.showRoot=true;
+	set radialLayout.spread=0.0;
+	set rectilinearLayout.alignTipLabels=false;
+	set rectilinearLayout.curvature=0;
+	set rectilinearLayout.rootLength=100;
+	set scale.offsetAge=0.0;
+	set scale.rootAge=1.0;
+	set scale.scaleFactor=1.0;
+	set scale.scaleRoot=false;
+	set scaleAxis.automaticScale=true;
+	set scaleAxis.fontSize=8.0;
+	set scaleAxis.isShown=false;
+	set scaleAxis.lineWidth=1.0;
+	set scaleAxis.majorTicks=1.0;
+	set scaleAxis.minorTicks=0.5;
+	set scaleAxis.origin=0.0;
+	set scaleAxis.reverseAxis=false;
+	set scaleAxis.showGrid=true;
+	set scaleBar.automaticScale=true;
+	set scaleBar.fontSize=10.0;
+	set scaleBar.isShown=true;
+	set scaleBar.lineWidth=1.0;
+	set scaleBar.scaleRange=0.0;
+	set tipLabels.colorAttribute="User selection";
+	set tipLabels.displayAttribute="Names";
+	set tipLabels.fontName="Helvetica";
+	set tipLabels.fontSize=12;
+	set tipLabels.fontStyle=3;
+	set tipLabels.isShown=true;
+	set tipLabels.significantDigits=4;
+	set trees.order=true;
+	set trees.orderType="decreasing";
+	set trees.rooting=true;
+	set trees.rootingType="User Selection";
+	set trees.transform=false;
+	set trees.transformType="cladogram";
+end;
+

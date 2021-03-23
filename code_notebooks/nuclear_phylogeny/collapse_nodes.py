@@ -14,7 +14,6 @@ with open(tre_f, 'r') as inf:
     for line in inf:
         tre_list.append(line.strip())
 
-
 collapsed_trees = []
 for f in tre_list:
     collapse = 0

@@ -1,0 +1,2 @@
+p1_30_genic_rev3=1-83558
+p2_30_intergenic_rev3=83559-141880

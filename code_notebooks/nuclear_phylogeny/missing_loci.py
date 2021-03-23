@@ -370,7 +370,7 @@ def missing_loci(avoid, supercontig_aln, exon_aln, supercontig_tre, exon_tre, bo
                 if locus not in final_loci:
                     final_loci.append(locus)
 
-    print(len(final_loci))
+    print(len(final_loci)) 
 
 
     # first take all supercontigs (supercontig-only)
@@ -386,7 +386,7 @@ def missing_loci(avoid, supercontig_aln, exon_aln, supercontig_tre, exon_tre, bo
         if bootstrap:
             if 'bipartitions.' in f:
                 locus = f.split('.')[1]
-
+                
                 if locus not in avoid:
                     if locus in final_loci: # ignores a locus if it should be filtered out based on locus length
                         to_cat['supercontig'].append(os.path.join(supercontig_tre, f))
@@ -414,7 +414,7 @@ def missing_loci(avoid, supercontig_aln, exon_aln, supercontig_tre, exon_tre, bo
                     if locus in final_loci:
                         to_aln['supercontig'].append(os.path.join(supercontig_aln, f))
 
-                        
+   
     for f in os.listdir(exon_tre):
         if bootstrap:
             if 'bipartitions.' in f:
@@ -447,14 +447,14 @@ def missing_loci(avoid, supercontig_aln, exon_aln, supercontig_tre, exon_tre, bo
     for f in os.listdir(exon_aln):
         if f.endswith('.fasta'):
             locus = f.split('.')[0][:4]
-            
+
             if locus in loci['inverse']:
                 to_aln['inverse'].append(os.path.join(exon_aln, f))
             
             if locus in loci['exon']:
                 to_aln['exon'].append(os.path.join(exon_aln, f))
 
-
+    print(to_cat['exon'], to_aln['exon'])
     # generate files of trees for coalescent analysis
     concatenate_gene_trees(to_cat)
 
@@ -465,7 +465,7 @@ def missing_loci(avoid, supercontig_aln, exon_aln, supercontig_tre, exon_tre, bo
     generate_aln_list(to_aln)
 
     # concatenate alignements and generate amas summaries
-    concatenate_alignments(to_aln, loci, flagged_loci, ignored_loci, avoid)
+    #concatenate_alignments(to_aln, loci, flagged_loci, ignored_loci, avoid)
 
     
     
