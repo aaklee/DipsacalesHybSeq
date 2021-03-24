@@ -29,11 +29,7 @@ Gilman_028,Paracryphia_alticola
 Gilman_029,Fedia_cornucopiae
 Gilman_030,Lonicera_periclymenum
 Gilman_031,Sambucus_pubens
-<<<<<<< HEAD:Code/Phylogeny/filtering_scripts/taxonnames.csv
-Gilman_032,Sinadoxa_corydarifolia
-=======
 Gilman_032,Sinadoxa_corydalifolia
->>>>>>> master:code_notebooks/nuclear_phylogeny/taxonnames.csv
 Gilman_033,Viburnum_lantanoides
 Gilman_034,Viburnum_sieboldii
 Gilman_035,Scabiosa_mansenensis
